@@ -27,7 +27,7 @@
 #import "MadvertiseView.h"
 #import "CJSONDeserializer.h"
 
-#define MADVERTISE_SDK_VERION @"4.1.2"
+#define MADVERTISE_SDK_VERION @"4.1.3"
 
 
 
@@ -183,14 +183,13 @@ NSString * const MadvertiseAdClass_toString[] = {
   responseCode        = 200;
   isBannerMode        = true;
   timer               = nil;
-  
-  // [self createAdReloadTimer];
     
   madDelegate  = delegate;
 
   // load first ad
   lock = [[NSLock alloc] init];
   [self loadAd];
+  [self createAdReloadTimer];
   
   self.placeHolder1 = [[[UIWebView alloc] initWithFrame:CGRectZero] autorelease];
   [placeholder_1 setUserInteractionEnabled:false];  
@@ -465,7 +464,7 @@ NSString * const MadvertiseAdClass_toString[] = {
 - (void)createAdReloadTimer {
   // prepare automatic refresh
   [MadvertiseUtilities localDebug:@"Init Ad reload timer"];
-  // [self stopTimer];
+  [self stopTimer];
   timer = [NSTimer scheduledTimerWithTimeInterval: interval target: self selector: @selector(timerFired:) userInfo: nil repeats: YES];
 }
 
