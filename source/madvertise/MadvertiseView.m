@@ -196,6 +196,7 @@ NSString * const MadvertiseAdClass_toString[] = {
     // load first ad
     lock = [[NSLock alloc] init];
     [self loadAd];
+    [self createAdReloadTimer];
     
     placeholder_1 = [[UIWebView alloc] initWithFrame:CGRectZero];
     [placeholder_1 setUserInteractionEnabled:NO];  

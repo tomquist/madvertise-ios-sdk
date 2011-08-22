@@ -71,4 +71,8 @@ This is why madvertise decided to make all SDKs public as open source projects. 
 h2. Change log
 
 v4.1.3
+<<<<<<< HEAD
 * fixed createAdReloadTimer not call if MadvertiseView is not instantiated before App received UIApplicationDidBecomeActiveNotification 
+=======
+* fixed createAdReloadTimer not call if MadvertiseView is not instantiated before App received UIApplicationDidBecomeActiveNotification 
+>>>>>>> 98ee0b7... fixed createAdReloadTimer issue
