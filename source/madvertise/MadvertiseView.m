@@ -435,6 +435,10 @@ NSString * const MadvertiseAdClass_toString[] = {
 - (void)openInAppBrowser {
 
   [self stopTimer];
+  if ([madDelegate respondsToSelector:@selector(inAppBrowserWillOpen)]) {
+    [madDelegate inAppBrowserWillOpen];
+  }
+  
   self.inAppLandingPageController = [[[InAppLandingPageController alloc] init] autorelease];
   inAppLandingPageController.onClose =  @selector(inAppBrowserClosed);
   inAppLandingPageController.ad = currentAd;
@@ -448,7 +452,12 @@ NSString * const MadvertiseAdClass_toString[] = {
 
   if (self.rootViewController) {
     inAppLandingPageController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.rootViewController presentModalViewController:inAppLandingPageController animated:YES];
+    if (self.rootViewController.modalViewController) {
+      [self.rootViewController.modalViewController presentModalViewController:inAppLandingPageController animated:YES];
+    }
+    else {
+      [self.rootViewController presentModalViewController:inAppLandingPageController animated:YES];
+    }
   }
   else {
     [inAppLandingPageController.view setFrame:[[UIScreen mainScreen] applicationFrame]];
@@ -479,9 +488,9 @@ NSString * const MadvertiseAdClass_toString[] = {
 }
 
 - (void)inAppBrowserClosed {
-  [[inAppLandingPageController retain] autorelease]; // Prevent crash
-  [inAppLandingPageController release];
-  inAppLandingPageController = nil;
+  if ([madDelegate respondsToSelector:@selector(inAppBrowserClosed)]) {
+    [madDelegate inAppBrowserClosed];
+  }
   [self createAdReloadTimer];
 }
 
