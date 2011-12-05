@@ -12,25 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "MadvertiseAd.h"
-#import "MadvertiseUtilities.h"
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "InAppLandingPageController.h"
 #import "MadvertiseDelegationProtocol.h"
-
 
 // enum of available banner formats
 typedef enum tagMadvertiseAdClass {
   mma,medium_rectangle,leaderboard,fullscreen,portrait,landscape  
 } MadvertiseAdClass;
 
+@class InAppLandingPageController;
+@class MadvertiseAd;
+
 @interface MadvertiseView : UIView<UIWebViewDelegate> {
   
   // attributes
   InAppLandingPageController* inAppLandingPageController;
+  UIViewController *rootViewController;
   id<MadvertiseDelegationProtocol> madDelegate;           // the delegate which receives ad related events like: adLoaded or adLoadFailed
-  NSMutableDictionary* post_params;
   NSMutableData* receivedData;                            // data received thorugh the connection to the ad server
   NSMutableURLRequest* request;  
   NSURLConnection *conn;                                  // current request object
@@ -41,9 +40,7 @@ typedef enum tagMadvertiseAdClass {
   NSInteger responseCode;                                 // flag that indicates if http response from ad server is ok
   bool isBannerMode;                                      // flag that indicates if the view shows a banner or a popup
   
-  UIView* animationView;
   UIView* currentView;                                    // one of the two views above, depending on user action
-  UIView* oldView;           
   
   int visibleHolder;
   UIWebView* placeholder_1;
@@ -62,8 +59,18 @@ typedef enum tagMadvertiseAdClass {
 /// constructor
 ////////////////
 
-@property (nonatomic,retain) UIWebView *placeHolder1;
-@property (nonatomic,retain) UIWebView *placeHolder2;
+@property (nonatomic, assign) id<MadvertiseDelegationProtocol> madDelegate;
+@property (nonatomic, assign) UIViewController *rootViewController;
+@property (nonatomic, retain) UIWebView *placeHolder1;
+@property (nonatomic, retain) UIWebView *placeHolder2;
+@property (nonatomic, retain) MadvertiseAd *currentAd;
+@property (nonatomic, retain) InAppLandingPageController* inAppLandingPageController;
+@property (nonatomic, retain) NSMutableURLRequest *request;
+@property (nonatomic, retain) UIView *currentView;
+@property (nonatomic, retain) NSTimer* timer;
+@property (nonatomic, retain) NSURLConnection *conn;
+@property (nonatomic, retain) NSMutableData* receivedData;
+
 
 + (MadvertiseView*)loadAdWithDelegate:(id<MadvertiseDelegationProtocol>)delegate withClass:(MadvertiseAdClass)adClassValue secondsToRefresh:(int)seconds;
 + (void) adLoadedHandlerWithObserver:(id) addObserver AndSelector:(SEL) sel;

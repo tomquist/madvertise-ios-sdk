@@ -15,7 +15,11 @@
 #import <CoreLocation/CoreLocation.h>
 
 typedef enum tagMadvertiseAnimationClass {
-  leftToRight, topToBottom, curlDown, fade, none 
+  MadvertiseAnimationClassLeftToRight,
+  MadvertiseAnimationClassTopToBottom,
+  MadvertiseAnimationClassCurlDown,
+  MadvertiseAnimationClassFade,
+  MadvertiseAnimationClassNone 
 } MadvertiseAnimationClass;
 
 @class MadvertiseView;
@@ -34,8 +38,8 @@ typedef enum tagMadvertiseAnimationClass {
 - (MadvertiseAnimationClass) bannerAnimationTyp;    // curlDown, topToBottom, leftToRight, fade, none
 - (void) inAppBrowserWillOpen;                      // YES | NO
 - (void) inAppBrowserClosed;                        // YES | NO
-- (bool) debugEnabled;                              // YES | NO
-- (bool) downloadTrackerEnabled;                    // YES | NO
+- (BOOL) debugEnabled;                              // YES | NO
+- (BOOL) downloadTrackerEnabled;                    // YES | NO
 - (NSString *) adServer;                            // default server is ad.madvertise.de.
 - (CLLocationCoordinate2D) location;
 - (NSString *) gender;                              // F | M 

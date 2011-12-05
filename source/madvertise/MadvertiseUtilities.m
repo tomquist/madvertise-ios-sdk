@@ -19,20 +19,7 @@
 @implementation MadvertiseUtilities
 
 
-static BOOL madvertiseDebugMode = YES;
-
-+ (void) setDebugMode: (BOOL) debug {
-	madvertiseDebugMode = debug;
-}
-
-+ (void)localDebug:(NSString*)debugMessage {
-    if (madvertiseDebugMode) {
-        NSLog(@"[Madvertise Debug]  %@", debugMessage);
-    }
-}
-
 + (NSString *) getIP {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	NSString *result = nil;
 	
 	struct ifaddrs*	addrs;
@@ -48,7 +35,7 @@ static BOOL madvertiseDebugMode = YES;
 			{
 				const struct sockaddr_in* dlAddr = (const struct sockaddr_in*) cursor->ifa_addr;
 				const uint8_t* base = (const uint8_t*)&dlAddr->sin_addr;
-				ip = [[NSMutableString new] autorelease];
+				ip = [NSMutableString new];
 				for (int i = 0; i < 4; i++)
 				{
 					if (i != 0)
@@ -57,22 +44,21 @@ static BOOL madvertiseDebugMode = YES;
 				}
 				interface = [NSString stringWithFormat:@"%s", cursor->ifa_name];
 				if([interface isEqualToString:@"en0"] && result == nil) {
-					result = ip;
+					result = [ip copy];
 				}
 				if(![interface isEqualToString:@"lo0"] && ![interface isEqualToString:@"en0"] && ![interface isEqualToString:@"fw0"] && ![interface isEqualToString:@"en1"] ) {
 					// NSLog(@"Interface %@", interface);
-					result = ip;
+					result = [ip copy];
 				}
+        [ip release];
 			}
 			cursor = cursor->ifa_next;
 		}
 		freeifaddrs(addrs);
 	}
-	[result retain];
-	[pool release];
 	if(result == nil)
 		result = @"127.0.0.1";
-	return result;
+	return [result autorelease];
 }
 
 static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
@@ -137,5 +123,17 @@ static char base64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
   return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
++ (void)logWithPath:(char *)path line:(NSUInteger)line string:(NSString *)format, ... {
+	NSString *pathString = [[NSString alloc] initWithBytes:path	length:strlen(path) encoding:NSUTF8StringEncoding];
+	
+	va_list argList;
+	va_start(argList, format);
+	NSString *formattedString = [[NSString alloc] initWithFormat:format arguments:argList];
+	va_end(argList);
+	
+	NSLog(@"%@", [NSString stringWithFormat:@"%@ (%d): %@", [pathString lastPathComponent], line, formattedString]);
+	[formattedString release];
+	[pathString release];
+}
 
 @end
