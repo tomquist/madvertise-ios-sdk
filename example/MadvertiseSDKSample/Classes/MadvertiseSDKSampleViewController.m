@@ -20,6 +20,8 @@
 
 @implementation MadvertiseSDKSampleViewController
 
+MadvertiseView *ad;
+
 
 - (void)dealloc {
   if(madvertiseDemoDelegate)
@@ -28,31 +30,61 @@
 }
 
 
-- (void)viewDidLoad {
-  [super viewDidLoad];
-
+- (void)showAd:(id)sender event:(id)event
+{
+  if(ad)
+    return;
   madvertiseDemoDelegate = [[MadvertiseSDKSampleDelegate alloc] init];
-  MadvertiseView *ad = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:medium_rectangle secondsToRefresh:15];
+  ad = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:MadvertiseAdClassMMA secondsToRefresh:2];
+  //ad = [MadvertiseView loadRichMediaAdWithDelegate:madvertiseDemoDelegate];
   [ad place_at_x:0 y:60];
   [self.view addSubview:ad];
   [self.view bringSubviewToFront:ad];
+}
+
+- (void)removeAd:(id)sender event:(id)event
+{
+  if(ad)
+    [ad removeFromSuperview];
+  ad = nil; 
+}
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+
+  UIButton *btn= [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+  btn.frame = CGRectMake(100, 100, 100, 25);
+  btn.backgroundColor = [UIColor clearColor];
+  [btn addTarget:self action:@selector(showAd:event:) forControlEvents:UIControlEventTouchUpInside];
+  [btn setTitle:@"Show ad" forState:UIControlStateNormal];
+  [self.view addSubview:btn]; 
+  [btn release];
+
   
-  MadvertiseView *ad2 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:leaderboard secondsToRefresh:25];
-  [ad2 place_at_x:0 y:140];
-  [self.view addSubview:ad2];
-  [self.view bringSubviewToFront:ad2];
+  UIButton *btn2= [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+  btn2.frame = CGRectMake(100, 200, 100, 25);
+  btn2.backgroundColor = [UIColor clearColor];
+  [btn2 addTarget:self action:@selector(removeAd:event:) forControlEvents:UIControlEventTouchUpInside];
+  [btn2 setTitle:@"Remove" forState:UIControlStateNormal];
+  [self.view addSubview:btn2]; 
+  [btn2 release];
   
-  
-  MadvertiseView *ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:portrait secondsToRefresh:25];
-  [ad3 place_at_x:0 y:320];
-  [self.view addSubview:ad3];
-  [self.view bringSubviewToFront:ad3];
-  
-  
-  ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:fullscreen secondsToRefresh:25];
-  [ad3 place_at_x:0 y:420];
-  [self.view addSubview:ad3];
-  [self.view bringSubviewToFront:ad3];
+//  MadvertiseView *ad2 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:leaderboard secondsToRefresh:25];
+//  [ad2 place_at_x:0 y:140];
+//  [self.view addSubview:ad2];
+//  [self.view bringSubviewToFront:ad2];
+//  
+//  
+//  MadvertiseView *ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:portrait secondsToRefresh:25];
+//  [ad3 place_at_x:0 y:320];
+//  [self.view addSubview:ad3];
+//  [self.view bringSubviewToFront:ad3];
+//  
+//  
+//  ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:fullscreen secondsToRefresh:25];
+//  [ad3 place_at_x:0 y:420];
+//  [self.view addSubview:ad3];
+//  [self.view bringSubviewToFront:ad3];
 }
 
 
@@ -65,20 +97,26 @@
 #pragma mark Notifications
 
 - (void) onAdLoadedSuccessfully:(NSNotification*)notify{
-  MADLog(@"successfully loaded with code: %@",[notify object]);
+  MadLog(@"successfully loaded with code: %@",[notify object]);
 }
 
 - (void) onAdLoadedFailed:(NSNotification*)notify{
-  MADLog(@"ad load faild with code: %@",[notify object]);
+  MadLog(@"ad load faild with code: %@",[notify object]);
+}
+- (void) onAdClose:(NSNotification*)notify{
+  // can occure for rich media ads which do not refresh automatically
+  MadLog(@"ad was closed");
+  if(ad)
+    [ad removeFromSuperview];
+  ad = nil; 
 }
 
 - (void) viewWillAppear:(BOOL)animated{
-  
-  //observing adLoaded and adLoadFailed Events
-  //==========================================
-  
+  //observing adLoaded, adLoadFailed and adClose Events
   [MadvertiseView adLoadedHandlerWithObserver:self AndSelector:@selector(onAdLoadedSuccessfully:)];
   [MadvertiseView adLoadFailedHandlerWithObserver:self AndSelector:@selector(onAdLoadedFailed:)];
+  [MadvertiseView adClosedHandlerWithObserver:self AndSelector:@selector(onAdClose:)];
+  
 }
 
 - (void) viewWillDisappear:(BOOL)animated{

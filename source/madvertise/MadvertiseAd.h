@@ -18,7 +18,12 @@
   NSString* clickUrl;
   NSString* clickAction;
   NSString* bannerUrl;
+  NSString* bannerType;
+  NSString* richmediaUrl;
+  
+  
   NSString* text;
+  bool isRichMedia;
   bool hasBanner;
   bool shouldOpenInAppBrowser;
   int width;
@@ -28,8 +33,11 @@
 @property(nonatomic,retain) NSString *clickUrl;
 @property(nonatomic,retain) NSString *clickAction;
 @property(nonatomic,retain) NSString *bannerUrl;
+@property(nonatomic,retain) NSString *bannerType;
+@property(nonatomic,retain) NSString *richmediaUrl;
 @property(nonatomic,retain) NSString *text;
 
+@property bool isRichMedia;
 @property bool hasBanner;
 @property bool shouldOpenInAppBrowser;
 @property int height;

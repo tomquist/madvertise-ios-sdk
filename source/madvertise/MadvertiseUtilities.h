@@ -23,9 +23,9 @@
 #import <UIKit/UIDevice.h>
 
 #if DEBUG
-#define MADLog(format, ...) [MadvertiseUtilities logWithPath:__FILE__ line:__LINE__ string:(format), ## __VA_ARGS__]
+#define MadLog(format, ...) [MadvertiseUtilities logWithPath:__FILE__ line:__LINE__ string:(format), ## __VA_ARGS__]
 #else
-#define MADLog(format, ...)
+#define MadLog(format, ...)
 #endif
 
 @interface MadvertiseUtilities : NSObject

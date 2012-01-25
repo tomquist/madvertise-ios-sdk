@@ -12,9 +12,7 @@
 		5B63957213F40F4E003D95AF /* MadvertiseTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B63956E13F40F4E003D95AF /* MadvertiseTracker.h */; };
 		5B63957613F40F58003D95AF /* MadvertiseUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B63957413F40F57003D95AF /* MadvertiseUtilities.h */; };
 		5B6395A813F411F4003D95AF /* MadvertiseView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B6395A413F411F4003D95AF /* MadvertiseView.h */; };
-		5B6395AA13F411F4003D95AF /* MadvertiseTextAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B6395A613F411F4003D95AF /* MadvertiseTextAdView.h */; };
 		5B6395AD13F41205003D95AF /* MadvertiseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B6395A513F411F4003D95AF /* MadvertiseView.m */; };
-		5B6395AF13F41205003D95AF /* MadvertiseTextAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B6395A713F411F4003D95AF /* MadvertiseTextAdView.m */; };
 		5B6395B113F41205003D95AF /* MadvertiseUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B63957513F40F58003D95AF /* MadvertiseUtilities.m */; };
 		5B6395B313F41205003D95AF /* MadvertiseAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B63956D13F40F4E003D95AF /* MadvertiseAd.m */; };
 		5B6395B513F41205003D95AF /* MadvertiseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B63956F13F40F4E003D95AF /* MadvertiseTracker.m */; };
@@ -65,8 +63,6 @@
 		5B63957513F40F58003D95AF /* MadvertiseUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MadvertiseUtilities.m; sourceTree = "<group>"; };
 		5B6395A413F411F4003D95AF /* MadvertiseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MadvertiseView.h; sourceTree = "<group>"; };
 		5B6395A513F411F4003D95AF /* MadvertiseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MadvertiseView.m; sourceTree = "<group>"; };
-		5B6395A613F411F4003D95AF /* MadvertiseTextAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MadvertiseTextAdView.h; sourceTree = "<group>"; };
-		5B6395A713F411F4003D95AF /* MadvertiseTextAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MadvertiseTextAdView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,8 +116,6 @@
 			children = (
 				5B6395A413F411F4003D95AF /* MadvertiseView.h */,
 				5B6395A513F411F4003D95AF /* MadvertiseView.m */,
-				5B6395A613F411F4003D95AF /* MadvertiseTextAdView.h */,
-				5B6395A713F411F4003D95AF /* MadvertiseTextAdView.m */,
 				5B63957413F40F57003D95AF /* MadvertiseUtilities.h */,
 				5B63957513F40F58003D95AF /* MadvertiseUtilities.m */,
 				5B63956C13F40F4E003D95AF /* MadvertiseAd.h */,
@@ -189,7 +183,6 @@
 				5B63957213F40F4E003D95AF /* MadvertiseTracker.h in Headers */,
 				5B63957613F40F58003D95AF /* MadvertiseUtilities.h in Headers */,
 				5B6395A813F411F4003D95AF /* MadvertiseView.h in Headers */,
-				5B6395AA13F411F4003D95AF /* MadvertiseTextAdView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +212,7 @@
 		5B0A657413EFEA7B0032A2DD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "madvertise GmbH";
 			};
 			buildConfigurationList = 5B0A657713EFEA7B0032A2DD /* Build configuration list for PBXProject "madvertise-ios-sdk" */;
@@ -244,7 +238,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B6395AD13F41205003D95AF /* MadvertiseView.m in Sources */,
-				5B6395AF13F41205003D95AF /* MadvertiseTextAdView.m in Sources */,
 				5B6395B113F41205003D95AF /* MadvertiseUtilities.m in Sources */,
 				5B6395B313F41205003D95AF /* MadvertiseAd.m in Sources */,
 				5B6395B513F41205003D95AF /* MadvertiseTracker.m in Sources */,
@@ -313,6 +306,7 @@
 				DSTROOT = /tmp/madvertise_ios_sdk.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -326,6 +320,7 @@
 				DSTROOT = /tmp/madvertise_ios_sdk.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

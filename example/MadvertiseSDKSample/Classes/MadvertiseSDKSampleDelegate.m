@@ -21,7 +21,8 @@
 
 - (NSString *) appId {
   return @"TestTokn";
-//  return @"EIt5zves";
+//  return @"RYE2POTN";
+//  return @"NJI9ABDh";
 }
 
 - (BOOL) debugEnabled {
@@ -33,14 +34,11 @@
 }
 
 - (MadvertiseAnimationClass) bannerAnimationTyp{
-// topToBottom:
-// curlDown:
-// fade:
-  return leftToRight;
+  return MadvertiseAnimationClassFade;
 }
 
 //- (NSString*) adServer {
-//  return @"http://192.168.1.51:9292";
+//  return @"http://192.168.1.128:12345";
 //}
 
 - (CLLocationCoordinate2D) location {

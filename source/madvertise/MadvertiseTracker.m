@@ -72,14 +72,14 @@ static NSString *madServer = @"http://ad.madvertise.de/action/";
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	
-  MADLog(@"%@", documentsDirectory);
+  MadLog(@"%@", documentsDirectory);
 	
   NSString *appOpenPath = [documentsDirectory stringByAppendingPathComponent:@"mad_launch_tracking"];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
     
   bool firstLaunch = ![fileManager fileExistsAtPath:appOpenPath];
 	
-  MADLog(@"Sending tracking request to madvertise. token=%@",productToken);
+  MadLog(@"Sending tracking request to madvertise. token=%@",productToken);
 	
 	UIDevice* device = [UIDevice currentDevice];
 	NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", madServer , productToken]];
@@ -125,7 +125,7 @@ static NSString *madServer = @"http://ad.madvertise.de/action/";
 
 #ifdef DEBUG
 	NSString* debugMessage = [[NSString alloc] initWithData:responseData encoding: NSUTF8StringEncoding];
-  MADLog(@"Response from madvertise %@", debugMessage);
+  MadLog(@"Response from madvertise %@", debugMessage);
   [debugMessage release];
 #endif 
   

@@ -20,21 +20,24 @@
 @interface InAppLandingPageController : UIViewController <UIWebViewDelegate> {
   MadvertiseAd* ad;
   MadvertiseView* madvertise_view;
-  UIView *banner_view;
+//  UIView *banner_view;
   SEL onClose;
   UIView *banner_container;
   UIActivityIndicatorView *spinner;
   UIView *overlay;
   UIWebView* webview;
+  NSString* url;
 }
 
 @property(nonatomic,retain) MadvertiseAd* ad;
 @property(nonatomic,retain) MadvertiseView* madvertise_view;
-@property(nonatomic,retain) UIView* banner_view;
+//@property(nonatomic,retain) UIView* banner_view;
 @property(nonatomic,retain) UIView *banner_container;
 @property(nonatomic,retain) UIActivityIndicatorView *spinner;
 @property(nonatomic,retain) UIView *overlay;
 @property(nonatomic,retain) UIWebView* webview;
+@property(nonatomic,retain) NSString* url;
+
 @property SEL onClose;
 
 

@@ -19,7 +19,7 @@ h2. Preparations
 * Install Git
 
 * Clone this repository:
-    
+
     git clone git@github.com:madvertise/madvertise-ios-sdk.git
 
 * Always include the following 4 libraries from Apple in you projects:
@@ -47,7 +47,7 @@ h2. Using the SDK
 
 * Make sure the appId method of your delegate returns the token, that you get when creating an app on our [plattform](https://app.madvertise.de/register).
 
-The [original documentation](http://redmine.madvertise.me/projects/madapi/wiki/IphoneSdk) contains some further information on how to use the SDK.          
+The [original documentation](http://redmine.madvertise.me/projects/madapi/wiki/IphoneSdk) contains some further information on how to use the SDK.
 
 h2. About
 
@@ -60,5 +60,16 @@ This is why madvertise decided to make all SDKs public as open source projects. 
 
 h2. Change log
 
+v4.2.0
+
+* merged pull request from [Soph](https://github.com/Soph)
+* renamed some macros
+
 v4.1.3
-* fixed createAdReloadTimer not call if MadvertiseView is not instantiated before App received UIApplicationDidBecomeActiveNotification 
+* fixed createAdReloadTimer not call if MadvertiseView is not instantiated before App received UIApplicationDidBecomeActiveNotification
+
+h2. Contributors
+
+Many thanks for their contributions go to:
+
+* [Soph](https://github.com/Soph)

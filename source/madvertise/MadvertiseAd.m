@@ -18,34 +18,142 @@
 
 @implementation MadvertiseAd
 
+@synthesize bannerType;
+@synthesize richmediaUrl;
 @synthesize bannerUrl;
 @synthesize clickUrl;
 @synthesize clickAction;
 @synthesize text;
 @synthesize hasBanner;
+@synthesize isRichMedia;
 @synthesize width;
 @synthesize height;
 @synthesize shouldOpenInAppBrowser;
 
 -(MadvertiseAd*)initFromDictionary:(NSDictionary*)dictionary {
-  
+
   if ((self = [super init])) {
-    MADLog(@"%@", dictionary);
-    
+    MadLog(@"%@", dictionary);
+
     clickUrl     = [[dictionary objectForKey:@"click_url"] retain];
-    bannerUrl    = [[dictionary objectForKey:@"banner_url"] retain];  
     text         = [([dictionary objectForKey:@"text"] ?: @"") retain];
     hasBanner    = [[dictionary objectForKey:@"has_banner"] boolValue];
     shouldOpenInAppBrowser = [[dictionary objectForKey:@"should_open_in_app"] boolValue];
-    
+
     width  = 320;
     height = 53;
+   
+    if(hasBanner) {
+      bannerUrl    = [[[dictionary objectForKey:@"banner"] objectForKey:@"url"] retain];
+      bannerType   = [[[dictionary objectForKey:@"banner"] objectForKey:@"type"] retain];
+      // could be rich media
+      if([bannerType isEqualToString:@"rich_media"]) {
+        isRichMedia = YES;
+        NSDictionary* rm = [[dictionary objectForKey:@"banner"] objectForKey:@"rich_media"];
+        richmediaUrl = [[rm objectForKey:@"full_url"] retain];
+        
+        id w = [rm objectForKey:@"width"];
+        if(w)
+          width = [w intValue];
+        id h = [rm objectForKey:@"height"];
+        if(h)
+          width = [h intValue];
+      } else {
+        isRichMedia = NO;
+      }
+    }
   }
   return self;
 }
 
+- (NSString*)textAdToHtml {
+  NSString* template = @""
+  "<html>"
+  "<head>"
+  "<style type=\"text/css\">"
+  "body {"
+  "width:320px;"
+  "height:53px;"
+  "  margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px; padding:0px; text-align:center; border:none;"
+  "overflow: hidden;"
+  "}"
+  "div {"
+  "background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.75)), to(rgba(0,0,0,1)));"
+  "width:321px;"
+  "height:53px;"
+  "  margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px; padding:0px; text-align:center; border:none;"
+  "color: #FFF;"
+  "  font-family: helvetica;"
+  "  font-size: %dpx;"
+  "}"
+  "p {"
+  "padding:10px;"
+  "}"
+  "div.madvertise {"
+  "  font-size: 9px;"
+  "position: absolute;"
+  "top: 40px;"
+  "left: 120px;"
+  "background: none;"
+  "}"
+  "</style>"
+  "</head>"
+  "<body>"
+  "<div><p>%@</p><div class='madvertise'>ad by madvertise</div></div>"
+  "</body>"
+  "</html>";
+  int size = 28;
+  if(self.text.length > 30) {
+    size -= (self.text.length - 30) * 1.5;
+  }
+  return [NSString stringWithFormat:template, size < 12 ? 12 : size, self.text];
+}
+
+-(NSString*)richmediaToHtml {
+  NSString* template = @""
+  "<html>"
+  "<head>"
+  "<style type=\"text/css\">"
+  "body {"
+  "  margin-left:0px; margin-right:0px; margin-top:0px; margin-bottom:0px; padding:0px; text-align:center; border:none;"
+  "overflow: hidden;"                                                                                                 
+  "background-color: transparent !important;"
+  "}"
+  "</style>"
+  "</head>"
+  "<body>"   
+  "<script>"
+  "window.addEventListener('message', function( event ) {"
+  "  if(typeof(event.data) == 'string') {"
+  "    if(event.data == 'madvertise.ad.close') {"
+  "      var d = document.getElementById('main');"
+  "      if(d) d.parentNode.removeChild(d);"
+  "      window.location = 'mad://close';"
+  "    }"
+  "  } else {"
+  "    if(event.data.type == 'madvertise.ad.redirect') {"
+  "      setTimeout(function() {"
+  "        window.location = event.data.data;"
+  "      }, 500);"
+  "    }"
+  "  }"
+  "}, false );"
+  "</script>"
+  "<iframe id='main' src='%@' allowtransparency='true' width='320' height='480' seamless scrolling='no' style='z-index:10000; background:none;position: fixed;top: 0px;float:left;overflow: hidden !important;border: none !important;background-color: none !important;' />"
+  "</body>"
+  "</html>";
+
+
+  return [NSString stringWithFormat:template, self.richmediaUrl];
+}
 
 -(NSString*)to_html {
+  if(self.isRichMedia) {
+    return [self richmediaToHtml];
+  }
+  if(!self.hasBanner)
+    return [self textAdToHtml];
+  
   NSString* template = @""
   "<html>"
   "<head>"
@@ -61,7 +169,7 @@
   if (self.bannerUrl) {
     body = [NSString stringWithFormat:@"<img src=\"%@\"></img>", self.bannerUrl];
   }
-  
+
   return [NSString stringWithFormat:template, body];
 }
 

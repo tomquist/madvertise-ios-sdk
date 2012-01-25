@@ -58,7 +58,6 @@
 		5B6395A013F41199003D95AF /* MadvertiseTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseTracker.h; path = ../../source/madvertise/MadvertiseTracker.h; sourceTree = "<group>"; };
 		5B6395A113F41199003D95AF /* MadvertiseUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseUtilities.h; path = ../../source/madvertise/MadvertiseUtilities.h; sourceTree = "<group>"; };
 		5B6395CD13F41219003D95AF /* MadvertiseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseView.h; path = ../../source/madvertise/MadvertiseView.h; sourceTree = "<group>"; };
-		5B6395CE13F41219003D95AF /* MadvertiseTextAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseTextAdView.h; path = ../../source/madvertise/MadvertiseTextAdView.h; sourceTree = "<group>"; };
 		5B6395CF13F418DC003D95AF /* MadvertiseDelegationProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseDelegationProtocol.h; path = ../../source/madvertise/MadvertiseDelegationProtocol.h; sourceTree = "<group>"; };
 		6D47222E13AA1BD200858222 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6D47223013AA1BF700858222 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -143,7 +142,6 @@
 			children = (
 				5B6395CF13F418DC003D95AF /* MadvertiseDelegationProtocol.h */,
 				5B6395CD13F41219003D95AF /* MadvertiseView.h */,
-				5B6395CE13F41219003D95AF /* MadvertiseTextAdView.h */,
 				5B63959F13F41199003D95AF /* MadvertiseAd.h */,
 				5B6395A013F41199003D95AF /* MadvertiseTracker.h */,
 				5B6395A113F41199003D95AF /* MadvertiseUtilities.h */,
@@ -265,6 +263,9 @@
 /* Begin PBXProject section */
 		6D9F920413AA132C009DEF37 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 6D9F920713AA132C009DEF37 /* Build configuration list for PBXProject "MadvertiseSDKSample" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -394,6 +395,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MadvertiseSDKSample/MadvertiseSDKSample-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MadvertiseSDKSample/MadvertiseSDKSample-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
@@ -460,6 +462,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MadvertiseSDKSample/MadvertiseSDKSample-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MadvertiseSDKSample/MadvertiseSDKSample-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
@@ -479,6 +482,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MadvertiseSDKSample/MadvertiseSDKSample-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "MadvertiseSDKSample/MadvertiseSDKSample-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (

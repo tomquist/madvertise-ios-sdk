@@ -18,7 +18,13 @@
 
 // enum of available banner formats
 typedef enum tagMadvertiseAdClass {
-  mma,medium_rectangle,leaderboard,fullscreen,portrait,landscape  
+  MadvertiseAdClassMMA,
+  MadvertiseAdClassMediumRectangle,
+  MadvertiseAdClassLeaderboard,
+  MadvertiseAdClassFullscreen,
+  MadvertiseAdClassPortrait,
+  MadvertiseAdClassLandscape,
+  MadvertiseAdClassRichMedia  
 } MadvertiseAdClass;
 
 @class InAppLandingPageController;
@@ -40,11 +46,8 @@ typedef enum tagMadvertiseAdClass {
   NSInteger responseCode;                                 // flag that indicates if http response from ad server is ok
   bool isBannerMode;                                      // flag that indicates if the view shows a banner or a popup
   
-  UIView* currentView;                                    // one of the two views above, depending on user action
+  UIWebView* currentView;                                    // one of the two views above, depending on user action
   
-  int visibleHolder;
-  UIWebView* placeholder_1;
-  UIWebView* placeholder_2;
   NSLock* lock;                                           // lock which is used to avoid race conditions while requesting an ad
 
   NSTimer* timer;                                         // the ad rotation timer
@@ -61,20 +64,20 @@ typedef enum tagMadvertiseAdClass {
 
 @property (nonatomic, assign) id<MadvertiseDelegationProtocol> madDelegate;
 @property (nonatomic, assign) UIViewController *rootViewController;
-@property (nonatomic, retain) UIWebView *placeHolder1;
-@property (nonatomic, retain) UIWebView *placeHolder2;
 @property (nonatomic, retain) MadvertiseAd *currentAd;
 @property (nonatomic, retain) InAppLandingPageController* inAppLandingPageController;
 @property (nonatomic, retain) NSMutableURLRequest *request;
-@property (nonatomic, retain) UIView *currentView;
+@property (nonatomic, retain) UIWebView *currentView;
 @property (nonatomic, retain) NSTimer* timer;
 @property (nonatomic, retain) NSURLConnection *conn;
 @property (nonatomic, retain) NSMutableData* receivedData;
 
 
 + (MadvertiseView*)loadAdWithDelegate:(id<MadvertiseDelegationProtocol>)delegate withClass:(MadvertiseAdClass)adClassValue secondsToRefresh:(int)seconds;
++ (MadvertiseView*)loadRichMediaAdWithDelegate:(id<MadvertiseDelegationProtocol>)delegate;
 + (void) adLoadedHandlerWithObserver:(id) addObserver AndSelector:(SEL) sel;
 + (void) adLoadFailedHandlerWithObserver:(id) addObserver AndSelector:(SEL) sel;
++ (void) adClosedHandlerWithObserver:(id) observer AndSelector:(SEL) selector;
 - (void)place_at_x:(int)x_pos y:(int)y_pos;               // position the frame for the view
 
 
