@@ -22,7 +22,6 @@
 @implementation InAppLandingPageController
 
 @synthesize ad;
-//@synthesize banner_view;
 @synthesize madvertise_view;
 @synthesize onClose;
 @synthesize banner_container;
@@ -30,17 +29,6 @@
 @synthesize overlay;
 @synthesize webview;
 @synthesize url;
-
-- (oneway void) release {
-  MadLog(@"LP RELEASE %d => %d", [self retainCount], [self retainCount] - 1);
-  [super release];
-}
-
-- (id) retain {
-  MadLog(@"LP RETAIN %d => %d", [self retainCount], [self retainCount] + 1);
-  return [super retain];
-}
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -100,8 +88,6 @@
 
   [self.view addSubview:self.webview];
 
-  //self.banner_container = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 210.0 - 44, 320.0, 52.0)] autorelease];
-  //[self.banner_container addSubview:self.banner_view];  
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -141,13 +127,11 @@ bool gone = NO;
     [self.view removeFromSuperview];
     [UIView commitAnimations];
   }
-  //[self.madvertise_view addSubview:self.banner_view];
   [self.madvertise_view performSelector:onClose];
   gone = NO;
 }
 
 -(void) afterFadeOut:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context  {
-  //[banner_container removeFromSuperview];
   [spinner stopAnimating];
   [spinner removeFromSuperview];
   [overlay removeFromSuperview];
@@ -160,7 +144,6 @@ bool gone = NO;
     [UIView setAnimationDuration:1.0];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(afterFadeOut:finished:context:)];
-    //[banner_container setAlpha:0];
     [spinner setAlpha:0];
     [overlay setAlpha:0];
     [UIView commitAnimations];
@@ -197,11 +180,6 @@ bool gone = NO;
 - (void)dealloc {
   MadLog(@"LP dealloc");
   [self viewDidUnload];
-
-//  //self.banner_view = nil;
-//  self.madvertise_view = nil;
-//  self.ad = nil;
-
   [super dealloc];
 }
 

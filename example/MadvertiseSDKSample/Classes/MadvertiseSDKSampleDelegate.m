@@ -21,8 +21,6 @@
 
 - (NSString *) appId {
   return @"TestTokn";
-//  return @"RYE2POTN";
-//  return @"NJI9ABDh";
 }
 
 - (BOOL) debugEnabled {

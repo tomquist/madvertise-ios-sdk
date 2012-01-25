@@ -72,16 +72,6 @@ NSString * const MadvertiseAdClass_toString[] = {
   @"rich_media"
 };
 
-- (oneway void) release {
-  MadLog(@"RELEASE %d => %d", [self retainCount], [self retainCount] - 1);
-  [super release];
-}
-
-- (id) retain {
-  MadLog(@"RETAIN %d => %d", [self retainCount], [self retainCount] + 1);
-  return [super retain];
-}
-
 // METHODS
 - (void) dealloc {
   MadLog(@"Call dealloc in MadvertiseView");
@@ -411,7 +401,7 @@ NSString * const MadvertiseAdClass_toString[] = {
 
   UIDevice* device = [UIDevice currentDevice];
 
-  NSString *ua = @"iPhone APP-UA - iPhone OS - 5.0 - iPhone Simulator - iPhone Simulator";//[MadvertiseUtilities buildUserAgent:device];
+  NSString *ua = [MadvertiseUtilities buildUserAgent:device];
   MadLog(@"ua: %@", ua);
 
   // get IP

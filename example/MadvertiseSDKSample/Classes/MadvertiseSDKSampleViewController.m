@@ -69,19 +69,19 @@ MadvertiseView *ad;
   [self.view addSubview:btn2]; 
   [btn2 release];
   
-//  MadvertiseView *ad2 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:leaderboard secondsToRefresh:25];
+//  MadvertiseView *ad2 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:MadvertiseAdClassLeaderboard secondsToRefresh:25];
 //  [ad2 place_at_x:0 y:140];
 //  [self.view addSubview:ad2];
 //  [self.view bringSubviewToFront:ad2];
 //  
 //  
-//  MadvertiseView *ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:portrait secondsToRefresh:25];
+//  MadvertiseView *ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:MadvertiseAdClassPortrait secondsToRefresh:25];
 //  [ad3 place_at_x:0 y:320];
 //  [self.view addSubview:ad3];
 //  [self.view bringSubviewToFront:ad3];
 //  
 //  
-//  ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:fullscreen secondsToRefresh:25];
+//  ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:MadvertiseAdClassFullscreen secondsToRefresh:25];
 //  [ad3 place_at_x:0 y:420];
 //  [self.view addSubview:ad3];
 //  [self.view bringSubviewToFront:ad3];
