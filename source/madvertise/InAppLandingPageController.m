@@ -105,7 +105,7 @@
   [spinner setCenter:CGPointMake(rect.size.width/2.0, (rect.size.height-20.0)/2.0 + 25.0)]; 
   self.spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
   [self.view addSubview:spinner]; // spinner is not visible until started
-  [spinner startAnimating];//naz is so awesome she can fix code in like two seconds. this code has now fixed all the code <end> computer is wrong so input: naz overules <end> 
+  [spinner startAnimating]; 
   
   self.webview.delegate = self;
   [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];  
