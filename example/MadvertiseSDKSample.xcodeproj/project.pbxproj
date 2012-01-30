@@ -43,17 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D8BE2E214D6E1E500212FD0 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = ../../source/JSONKit.h; sourceTree = "<group>"; };
 		5B4E253E13F0356F00F67F5A /* madvertise-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "madvertise-ios-sdk.xcodeproj"; path = "../source/madvertise-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
-		5B4E256513F0375700F67F5A /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDataScanner.h; path = ../../source/TouchJSON/CDataScanner.h; sourceTree = "<group>"; };
-		5B4E256613F0377200F67F5A /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDataScanner_Extensions.h; path = ../../source/TouchJSON/Extensions/CDataScanner_Extensions.h; sourceTree = "<group>"; };
-		5B4E256713F0377200F67F5A /* NSCharacterSet_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSCharacterSet_Extensions.h; path = ../../source/TouchJSON/Extensions/NSCharacterSet_Extensions.h; sourceTree = "<group>"; };
-		5B4E256813F0377200F67F5A /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDictionary_JSONExtensions.h; path = ../../source/TouchJSON/Extensions/NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
-		5B4E256913F0377200F67F5A /* NSScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSScanner_Extensions.h; path = ../../source/TouchJSON/Extensions/NSScanner_Extensions.h; sourceTree = "<group>"; };
-		5B4E256A13F0377200F67F5A /* CJSONDataSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONDataSerializer.h; path = ../../source/TouchJSON/JSON/CJSONDataSerializer.h; sourceTree = "<group>"; };
-		5B4E256B13F0377200F67F5A /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONDeserializer.h; path = ../../source/TouchJSON/JSON/CJSONDeserializer.h; sourceTree = "<group>"; };
-		5B4E256C13F0377200F67F5A /* CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONScanner.h; path = ../../source/TouchJSON/JSON/CJSONScanner.h; sourceTree = "<group>"; };
-		5B4E256D13F0377300F67F5A /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONSerializer.h; path = ../../source/TouchJSON/JSON/CJSONSerializer.h; sourceTree = "<group>"; };
-		5B4E256E13F0377300F67F5A /* CSerializedJSONData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSerializedJSONData.h; path = ../../source/TouchJSON/JSON/CSerializedJSONData.h; sourceTree = "<group>"; };
 		5B63959F13F41199003D95AF /* MadvertiseAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseAd.h; path = ../../source/madvertise/MadvertiseAd.h; sourceTree = "<group>"; };
 		5B6395A013F41199003D95AF /* MadvertiseTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseTracker.h; path = ../../source/madvertise/MadvertiseTracker.h; sourceTree = "<group>"; };
 		5B6395A113F41199003D95AF /* MadvertiseUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MadvertiseUtilities.h; path = ../../source/madvertise/MadvertiseUtilities.h; sourceTree = "<group>"; };
@@ -103,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D8BE2E114D6E1BE00212FD0 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				4D8BE2E214D6E1E500212FD0 /* JSONKit.h */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
 		5B4E253F13F0356F00F67F5A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,27 +113,10 @@
 		5B4E254B13F0365800F67F5A /* sdk-includes */ = {
 			isa = PBXGroup;
 			children = (
+				4D8BE2E114D6E1BE00212FD0 /* JSONKit */,
 				5B4E257113F0379D00F67F5A /* madvertise */,
-				5B4E257013F0378C00F67F5A /* CJSON */,
 			);
 			name = "sdk-includes";
-			sourceTree = "<group>";
-		};
-		5B4E257013F0378C00F67F5A /* CJSON */ = {
-			isa = PBXGroup;
-			children = (
-				5B4E256613F0377200F67F5A /* CDataScanner_Extensions.h */,
-				5B4E256713F0377200F67F5A /* NSCharacterSet_Extensions.h */,
-				5B4E256813F0377200F67F5A /* NSDictionary_JSONExtensions.h */,
-				5B4E256913F0377200F67F5A /* NSScanner_Extensions.h */,
-				5B4E256A13F0377200F67F5A /* CJSONDataSerializer.h */,
-				5B4E256B13F0377200F67F5A /* CJSONDeserializer.h */,
-				5B4E256C13F0377200F67F5A /* CJSONScanner.h */,
-				5B4E256D13F0377300F67F5A /* CJSONSerializer.h */,
-				5B4E256E13F0377300F67F5A /* CSerializedJSONData.h */,
-				5B4E256513F0375700F67F5A /* CDataScanner.h */,
-			);
-			name = CJSON;
 			sourceTree = "<group>";
 		};
 		5B4E257113F0379D00F67F5A /* madvertise */ = {
@@ -391,6 +373,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -402,7 +385,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -457,6 +442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -469,7 +455,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -478,6 +466,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -489,7 +478,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

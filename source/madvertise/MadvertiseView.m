@@ -22,12 +22,11 @@
 
 #import "MadvertiseUtilities.h"
 
-
 #import "MadvertiseAd.h"
 #import "InAppLandingPageController.h"
 #import "MadvertiseTracker.h"
 #import "MadvertiseView.h"
-#import "CJSONDeserializer.h"
+#import "JSONKit.h"
 
 #define MADVERTISE_SDK_VERION @"4.2.0"
 
@@ -79,7 +78,7 @@ NSString * const MadvertiseAdClass_toString[] = {
   [[NSNotificationCenter defaultCenter] removeObserver: self name:UIApplicationDidEnterBackgroundNotification object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver: self name:UIApplicationDidBecomeActiveNotification object:nil];
 
-  [self.conn cancel];
+  //[self.conn cancel];
   self.conn = nil;
   self.request = nil;
   self.receivedData = nil;
@@ -91,7 +90,7 @@ NSString * const MadvertiseAdClass_toString[] = {
   [inAppLandingPageController release];
   self.inAppLandingPageController = nil;
   self.madDelegate = nil;
-
+    
   if(self.currentView) {
     self.currentView.delegate = nil;
     [self.currentView stopLoading];
@@ -99,7 +98,7 @@ NSString * const MadvertiseAdClass_toString[] = {
   }
   
   self.currentAd   = nil;
-
+    
   [lock release];
   lock = nil;
 
@@ -113,7 +112,6 @@ NSString * const MadvertiseAdClass_toString[] = {
 
 // main-constructor
 + (MadvertiseView*)loadAdWithDelegate:(id<MadvertiseDelegationProtocol>)delegate withClass:(MadvertiseAdClass)adClassValue secondsToRefresh:(int)secondsToRefresh {
-
   BOOL enableDebug = NO;
 
 #ifdef DEBUG
@@ -133,6 +131,12 @@ NSString * const MadvertiseAdClass_toString[] = {
       [MadvertiseTracker enable];
     }
   }
+    
+  // handle special rich media case
+  if (adClassValue == MadvertiseAdClassRichMedia) {
+      secondsToRefresh = -1;
+  }
+    
   return [[[MadvertiseView alloc] initWithDelegate:delegate withClass:adClassValue secondsToRefresh:secondsToRefresh] autorelease];
 }
 
@@ -194,7 +198,7 @@ NSString * const MadvertiseAdClass_toString[] = {
     // just a dummy placeholder
     self.currentView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, 0,0)];
     [self addSubview:self.currentView];
-    
+    [currentView release];
     
     currentAdClass     = adClassValue;
 
@@ -262,17 +266,10 @@ NSString * const MadvertiseAdClass_toString[] = {
 
   if( responseCode == 200) {
     // parse response
-    MadLog(@"Deserializing JSON");
-    NSString* jsonString = [[NSString alloc] initWithData:receivedData encoding: NSUTF8StringEncoding];
-    MadLog(@"Received string: %@", jsonString);
-
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
-    [jsonString release];
-
-    NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:nil];
+    MadLog(@"Deserializing json");
+    NSDictionary *dictionary = [receivedData objectFromJSONData];
 
     MadLog(@"Creating ad");
-
     self.currentAd = [[[MadvertiseAd alloc] initFromDictionary:dictionary] autorelease];
 
     // banner formats
@@ -655,11 +652,14 @@ NSString * const MadvertiseAdClass_toString[] = {
   newView.frame = newEnd;
   oldView.frame = oldEnd;
   [self addSubview:newView];
+  [newView release];
  
   [UIView setAnimationDelegate:oldView];
   [UIView setAnimationDidStopSelector:@selector(removeFromSuperview)];
   [UIView commitAnimations];
-  
+
+  self.currentView.delegate = nil;
+  [self.currentView stopLoading];
   self.currentView = newView;
 }
 

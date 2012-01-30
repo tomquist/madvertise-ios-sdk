@@ -16,7 +16,6 @@
 
 @interface MadvertiseAd : NSObject {
   NSString* clickUrl;
-  NSString* clickAction;
   NSString* bannerUrl;
   NSString* bannerType;
   NSString* richmediaUrl;
@@ -31,7 +30,6 @@
 }
 
 @property(nonatomic,retain) NSString *clickUrl;
-@property(nonatomic,retain) NSString *clickAction;
 @property(nonatomic,retain) NSString *bannerUrl;
 @property(nonatomic,retain) NSString *bannerType;
 @property(nonatomic,retain) NSString *richmediaUrl;

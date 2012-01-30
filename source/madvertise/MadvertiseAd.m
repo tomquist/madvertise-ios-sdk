@@ -22,7 +22,6 @@
 @synthesize richmediaUrl;
 @synthesize bannerUrl;
 @synthesize clickUrl;
-@synthesize clickAction;
 @synthesize text;
 @synthesize hasBanner;
 @synthesize isRichMedia;
@@ -164,7 +163,7 @@
   "</body>"
   "</html>";
 
-  NSString* body = @"HALLO!";
+  NSString* body = @"";
 
   if (self.bannerUrl) {
     body = [NSString stringWithFormat:@"<img src=\"%@\"></img>", self.bannerUrl];
@@ -177,6 +176,8 @@
   self.clickUrl = nil;
   self.bannerUrl = nil;
   self.text = nil;
+    self.bannerType = nil;
+    self.richmediaUrl = nil;
 
   [super dealloc];
 }

@@ -24,7 +24,6 @@
 @synthesize ad;
 @synthesize madvertise_view;
 @synthesize onClose;
-@synthesize banner_container;
 @synthesize spinner;
 @synthesize overlay;
 @synthesize webview;
@@ -164,12 +163,12 @@ bool gone = NO;
   self.onClose = nil;
   self.view = nil;
   self.overlay = nil;
-  self.banner_container = nil;
   self.spinner = nil;
   self.webview.delegate = nil;
   self.webview = nil;
   self.overlay = nil;
   self.ad = nil;
+  self.url = nil;
 }
 
 - (void)viewDidUnload {
