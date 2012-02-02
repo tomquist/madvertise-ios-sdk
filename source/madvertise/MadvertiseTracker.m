@@ -93,7 +93,7 @@ static NSString *madServer = @"http://ad.madvertise.de/action/";
 	NSMutableDictionary* post_params = [[NSMutableDictionary alloc] init];
 	[post_params setValue:[MadvertiseUtilities buildUserAgent:device] forKey:@"ua"];
 	[post_params setValue:[MadvertiseUtilities getIP] forKey:@"ip"];
-  [post_params setValue:[MadvertiseUtilities base64Hash:[device uniqueIdentifier]] forKey:@"uid"];
+  [post_params setValue:[MadvertiseUtilities base64Hash:[device uniqueIdentifier]] forKey:@"udid"];
   [post_params setValue:[MadvertiseUtilities getTimestamp] forKey:@"ts"];  
   [post_params setValue:action_type forKey:@"at"];  
   [post_params setValue:(firstLaunch ? @"1" : @"0") forKey:@"first_launch"];  

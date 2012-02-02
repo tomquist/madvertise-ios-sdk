@@ -408,7 +408,7 @@ NSString * const MadvertiseAdClass_toString[] = {
   NSString *hash = [MadvertiseUtilities base64Hash:[device uniqueIdentifier]];
 
   [post_params setValue:  @"true"         forKey:@"app"];
-  [post_params setValue:  hash            forKey:@"uid"];
+  [post_params setValue:  hash            forKey:@"udid"];
   [post_params setValue:  ua              forKey:@"ua"];
   [post_params setValue:  ip              forKey:@"ip"];
   [post_params setValue:  @"json"         forKey:@"format"];
