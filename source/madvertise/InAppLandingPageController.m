@@ -15,7 +15,8 @@
 #import "InAppLandingPageController.h"
 #import <UIKit/UIBarButtonItem.h>
 #import <QuartzCore/QuartzCore.h>
-
+#import "MadvertiseView.h"
+#import "MadvertiseAd.h"
 
 @implementation InAppLandingPageController
 
@@ -23,10 +24,13 @@
 @synthesize banner_view;
 @synthesize madvertise_view;
 @synthesize onClose;
+@synthesize banner_container;
+@synthesize spinner;
+@synthesize overlay;
+@synthesize webview;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    
   [super viewDidLoad];
   
   CGRect rect = [[UIScreen mainScreen] bounds];
@@ -38,9 +42,10 @@
   view1.opaque = YES;
   view1.tag = 0;
   view1.userInteractionEnabled = YES;
+  self.view = view1;
+  [view1 release];
   
   UIWebView *view6 = [[UIWebView alloc] initWithFrame:CGRectMake(-20.0, -66.0, 340.0, 482.0)];
-  webview = view6;
   view6.frame = CGRectMake(0.0, 0, 340.0, 460.0-44);
   view6.alpha = 1.000;
   view6.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -53,6 +58,8 @@
   view6.scalesPageToFit = NO;
   view6.tag = 0;
   view6.userInteractionEnabled = YES;
+  self.webview = view6;
+  [view6 release];
   
   UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, 416.0, 320.0, 44.0)];
   toolbar.frame = CGRectMake(0.0, 416.0, 320.0, 44.0);
@@ -70,40 +77,42 @@
   
   UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButton", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(back) ];
   [toolbar setItems:[NSArray arrayWithObjects:button, nil ]];
-  [view1 addSubview:toolbar];
-  [view1 addSubview:view6];
   [button release];
   
+  [self.view addSubview:toolbar];
   [toolbar release];
-  self.view = [view1 autorelease];
+
+  [self.view addSubview:self.webview];
   
-  overlay = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, rect.size.width, rect.size.height - 64.0)];
-  overlay.alpha = 0.800;
-  overlay.backgroundColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1.000];
-  banner_container = [[UIView alloc] initWithFrame:CGRectMake(0.0, 210.0 - 44, 320.0, 52.0)];
+  self.overlay = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, rect.size.width, rect.size.height - 64.0)] autorelease];
+  self.overlay.alpha = 0.800;
+  self.overlay.backgroundColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1.000];
+  self.banner_container = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 210.0 - 44, 320.0, 52.0)] autorelease];
   
   UIColor* white = [UIColor colorWithRed:0.200 green:0.200 blue:0.200 alpha:0.200];  
   
   CAGradientLayer *gradient = [CAGradientLayer layer];
-  gradient.frame = overlay.bounds;
+  gradient.frame = self.overlay.bounds;
   gradient.colors = [NSArray arrayWithObjects:(id)[white CGColor], (id)[[UIColor blackColor] CGColor], (id)[white CGColor], nil];
-   [overlay.layer insertSublayer:gradient atIndex:0];
   
-  [banner_container addSubview:banner_view];
-  [view1 addSubview:overlay];
-  //[view1 addSubview:banner_container];
+  [self.overlay.layer insertSublayer:gradient atIndex:0];
   
-  spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+  [self.banner_container addSubview:self.banner_view];
+  [self.view addSubview:self.overlay];
+  
+  self.spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+
   [spinner setCenter:CGPointMake(rect.size.width/2.0, (rect.size.height-20.0)/2.0 + 25.0)]; 
   [self.view addSubview:spinner]; // spinner is not visible until started
   [spinner startAnimating];
-  webview.delegate = self;
-  [webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[ad clickUrl]]]];
+
+  self.webview.delegate = self;
+  [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self.ad clickUrl]]]];
 }
 
-bool gone = false; 
+bool gone = NO; 
 
--(void)back {
+-(void) back {
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:1.0];
   UIWindow *window = [[UIApplication sharedApplication] keyWindow];  
@@ -112,17 +121,15 @@ bool gone = false;
   [UIView commitAnimations];
   [self.madvertise_view addSubview:self.banner_view];
   [self.madvertise_view performSelector:onClose];
-  gone = false;
+  gone = NO;
 }
 
--(void)afterFadeOut:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context  {
+-(void) afterFadeOut:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context  {
   [banner_container removeFromSuperview];
   [spinner stopAnimating];
   [spinner removeFromSuperview];
   [overlay removeFromSuperview];
 }
-
-
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
   if(!gone) {
@@ -135,7 +142,7 @@ bool gone = false;
     [spinner setAlpha:0];
     [overlay setAlpha:0];
     [UIView commitAnimations];
-    gone = true;
+    gone = YES;
   }
 }
 
@@ -148,18 +155,26 @@ bool gone = false;
 }
 
 - (void)viewDidUnload {
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
+  self.view = nil;
+  self.overlay = nil;
+  self.banner_container = nil;
+  self.spinner = nil;
+  self.webview.delegate = nil;
+  self.webview = nil;
+  self.overlay = nil;
+  
+  [super viewDidUnload];
 }
 
 
 - (void)dealloc {
-  [banner_container release];
-  [spinner release];
-  [overlay release];
-  webview.delegate = nil;
-  [webview release];
-    [super dealloc];
+  [self viewDidUnload];
+
+  self.banner_view = nil;
+  self.madvertise_view = nil;
+  self.ad = nil;
+
+  [super dealloc];
 }
 
 @end

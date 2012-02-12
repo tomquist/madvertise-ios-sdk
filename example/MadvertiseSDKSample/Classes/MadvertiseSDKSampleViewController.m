@@ -16,6 +16,7 @@
 #import "MadvertiseView.h"
 #import "MadvertiseSDKSampleDelegate.h"
 #import "MadvertiseTracker.h"
+#import "MadvertiseUtilities.h"
 
 @implementation MadvertiseSDKSampleViewController
 
@@ -35,30 +36,23 @@
   [ad place_at_x:0 y:60];
   [self.view addSubview:ad];
   [self.view bringSubviewToFront:ad];
-  [ad release];
   
   MadvertiseView *ad2 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:leaderboard secondsToRefresh:25];
   [ad2 place_at_x:0 y:140];
   [self.view addSubview:ad2];
   [self.view bringSubviewToFront:ad2];
-  [ad2 release];
   
   
   MadvertiseView *ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:portrait secondsToRefresh:25];
   [ad3 place_at_x:0 y:320];
   [self.view addSubview:ad3];
   [self.view bringSubviewToFront:ad3];
-  [ad3 release];
   
   
   ad3 = [MadvertiseView loadAdWithDelegate:madvertiseDemoDelegate withClass:fullscreen secondsToRefresh:25];
   [ad3 place_at_x:0 y:420];
   [self.view addSubview:ad3];
   [self.view bringSubviewToFront:ad3];
-  [ad3 release];
-  
-  
-  
 }
 
 
@@ -71,11 +65,11 @@
 #pragma mark Notifications
 
 - (void) onAdLoadedSuccessfully:(NSNotification*)notify{
-  [MadvertiseUtilities localDebug: [NSString stringWithFormat:@"successfully loaded with code: %@",[notify object]]];
+  MADLog(@"successfully loaded with code: %@",[notify object]);
 }
 
 - (void) onAdLoadedFailed:(NSNotification*)notify{
-  [MadvertiseUtilities localDebug: [NSString stringWithFormat:@"ad load faild with code: %@",[notify object]]];
+  MADLog(@"ad load faild with code: %@",[notify object]);
 }
 
 - (void) viewWillAppear:(BOOL)animated{

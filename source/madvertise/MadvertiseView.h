@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "MadvertiseAd.h"
-#import "MadvertiseUtilities.h"
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "InAppLandingPageController.h"
 #import "MadvertiseDelegationProtocol.h"
-
 
 // enum of available banner formats
 typedef enum MadvertiseAdClass {
   MadvertiseAdClassMMA,MadvertiseAdClassMediumRectangle,MadvertiseAdClassLeaderboard,MadvertiseAdClassFullscreen,MadvertiseAdClassPortrait,MadvertiseAdClassLandscape  
 } MadvertiseAdClass;
+
+@class InAppLandingPageController;
+@class MadvertiseAd;
 
 @interface MadvertiseView : UIView<UIWebViewDelegate> {
   
@@ -59,9 +58,16 @@ typedef enum MadvertiseAdClass {
 /// constructor
 ////////////////
 
-@property (nonatomic,retain) UIWebView *placeHolder1;
-@property (nonatomic,retain) UIWebView *placeHolder2;
-@property (nonatomic,readonly) MadvertiseAd *currentAd;
+@property (nonatomic, assign) id<MadvertiseDelegationProtocol> madDelegate;
+@property (nonatomic, retain) UIWebView *placeHolder1;
+@property (nonatomic, retain) UIWebView *placeHolder2;
+@property (nonatomic, retain) MadvertiseAd *currentAd;
+@property (nonatomic, retain) InAppLandingPageController* inAppLandingPageController;
+@property (nonatomic, retain) NSMutableURLRequest *request;
+@property (nonatomic, retain) UIView *currentView;
+@property (nonatomic, retain) NSTimer* timer;
+@property (nonatomic, retain) NSURLConnection *conn;
+@property (nonatomic, retain) NSMutableData* receivedData;
 
 + (MadvertiseView*)loadAdWithDelegate:(id<MadvertiseDelegationProtocol>)delegate withClass:(MadvertiseAdClass)adClassValue secondsToRefresh:(int)seconds;
 + (void) adLoadedHandlerWithObserver:(id) addObserver AndSelector:(SEL) sel;
