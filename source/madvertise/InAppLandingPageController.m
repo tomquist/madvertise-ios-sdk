@@ -68,7 +68,7 @@
   toolbar.tag = 0;
   toolbar.userInteractionEnabled = YES;
   
-  UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back) ];
+  UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButton", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(back) ];
   [toolbar setItems:[NSArray arrayWithObjects:button, nil ]];
   [view1 addSubview:toolbar];
   [view1 addSubview:view6];
@@ -113,7 +113,6 @@ bool gone = false;
   [self.madvertise_view addSubview:self.banner_view];
   [self.madvertise_view performSelector:onClose];
   gone = false;
-  [self release];
 }
 
 -(void)afterFadeOut:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context  {

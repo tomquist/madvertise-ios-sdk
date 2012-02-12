@@ -21,8 +21,8 @@
 
 
 // enum of available banner formats
-typedef enum tagMadvertiseAdClass {
-  mma,medium_rectangle,leaderboard,fullscreen,portrait,landscape  
+typedef enum MadvertiseAdClass {
+  MadvertiseAdClassMMA,MadvertiseAdClassMediumRectangle,MadvertiseAdClassLeaderboard,MadvertiseAdClassFullscreen,MadvertiseAdClassPortrait,MadvertiseAdClassLandscape  
 } MadvertiseAdClass;
 
 @interface MadvertiseView : UIView<UIWebViewDelegate> {
@@ -30,7 +30,6 @@ typedef enum tagMadvertiseAdClass {
   // attributes
   InAppLandingPageController* inAppLandingPageController;
   id<MadvertiseDelegationProtocol> madDelegate;           // the delegate which receives ad related events like: adLoaded or adLoadFailed
-  NSMutableDictionary* post_params;
   NSMutableData* receivedData;                            // data received thorugh the connection to the ad server
   NSMutableURLRequest* request;  
   NSURLConnection *conn;                                  // current request object
@@ -41,9 +40,7 @@ typedef enum tagMadvertiseAdClass {
   NSInteger responseCode;                                 // flag that indicates if http response from ad server is ok
   bool isBannerMode;                                      // flag that indicates if the view shows a banner or a popup
   
-  UIView* animationView;
   UIView* currentView;                                    // one of the two views above, depending on user action
-  UIView* oldView;           
   
   int visibleHolder;
   UIWebView* placeholder_1;
@@ -64,11 +61,15 @@ typedef enum tagMadvertiseAdClass {
 
 @property (nonatomic,retain) UIWebView *placeHolder1;
 @property (nonatomic,retain) UIWebView *placeHolder2;
+@property (nonatomic,readonly) MadvertiseAd *currentAd;
 
 + (MadvertiseView*)loadAdWithDelegate:(id<MadvertiseDelegationProtocol>)delegate withClass:(MadvertiseAdClass)adClassValue secondsToRefresh:(int)seconds;
 + (void) adLoadedHandlerWithObserver:(id) addObserver AndSelector:(SEL) sel;
 + (void) adLoadFailedHandlerWithObserver:(id) addObserver AndSelector:(SEL) sel;
 - (void)place_at_x:(int)x_pos y:(int)y_pos;               // position the frame for the view
-
+- (void) stopTimer;
+- (void) createAdReloadTimer;
+- (void)loadAd;       // load a new ad into an existing MadvertiseView 
+                      // Ads should not be cached, nor should you request more than one ad per minute
 
 @end

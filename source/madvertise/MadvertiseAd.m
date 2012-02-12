@@ -29,7 +29,7 @@
 
 +(MadvertiseAd*)initFromDictionary:(NSDictionary*)dictionary {
   
-  MadvertiseAd *ad = [MadvertiseAd alloc];
+  MadvertiseAd *ad = [[MadvertiseAd alloc] init];
   
   for (id key in dictionary) {
     [MadvertiseUtilities localDebug:[NSString stringWithFormat:@"%@=%@", key, [dictionary valueForKey:key]]];
@@ -48,7 +48,7 @@
   ad.width  = 320;
   ad.height = 53;
   
-  return ad;
+  return [ad autorelease];
 }
 
 

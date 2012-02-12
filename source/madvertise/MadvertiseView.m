@@ -25,7 +25,7 @@
 #import "MadvertiseTextAdView.h"
 #import "MadvertiseTracker.h"
 #import "MadvertiseView.h"
-#import "CJSONDeserializer.h"
+#import "JSONKit.h"
 
 #define MADVERTISE_SDK_VERION @"4.1.3"
 
@@ -44,11 +44,8 @@
 - (void) swapViewFormTopToBottom;
 - (void) swapViewFormLeftToRight;
 - (void) swapViewWithFading;
-- (void) createAdReloadTimer;
 - (void) displayView;
-- (void) stopTimer;
-- (void)loadAd;       // load a new ad into an existing MadvertiseView 
-                      // Ads should not be cached, nor should you request more than one ad per minute
+
 @end
 
 
@@ -56,6 +53,7 @@
 
 @synthesize placeHolder1 = placeholder_1;
 @synthesize placeHolder2 = placeholder_2;
+@synthesize currentAd;
 
 NSString * const MadvertiseAdClass_toString[] = {
   @"mma",
@@ -76,24 +74,22 @@ NSString * const MadvertiseAdClass_toString[] = {
   
   [conn release];
 
-  [post_params release];
   [self destroyView:currentView];
   
   if (timer != nil ){
     [timer invalidate];
+    [timer release];
     timer = nil;
   }
   
   
-  if(inAppLandingPageController != nil){
-    [inAppLandingPageController release];
-    inAppLandingPageController = nil;
-  }
+  [inAppLandingPageController release];
+  inAppLandingPageController = nil;
   
-  if(placeholder_1 !=nil && placeholder_2!=nil){
-    [placeholder_1 release];
-    [placeholder_2 release];
-  }
+  [placeholder_1 release];
+    placeholder_1 = nil;
+  [placeholder_2 release];
+     placeholder_2 = nil;
   
   [currentAd release];
   
@@ -129,7 +125,7 @@ NSString * const MadvertiseAdClass_toString[] = {
       [MadvertiseTracker enable];
     }
   }
-  return [[MadvertiseView alloc] initWithDelegate:delegate withClass:adClassValue secondsToRefresh:secondsToRefresh];
+  return [[[MadvertiseView alloc] initWithDelegate:delegate withClass:adClassValue secondsToRefresh:secondsToRefresh] autorelease];
 }
 
 + (void) adLoadedHandlerWithObserver:(id) observer AndSelector:(SEL) selector{
@@ -141,6 +137,7 @@ NSString * const MadvertiseAdClass_toString[] = {
 }
 
 - (void)removeFromSuperview {
+  [super removeFromSuperview];
   [timer invalidate];
   [placeholder_1 removeFromSuperview];
   [placeholder_2 removeFromSuperview];
@@ -151,17 +148,17 @@ NSString * const MadvertiseAdClass_toString[] = {
   x = x_pos;
   y = y_pos;
   
-  if(currentAdClass == medium_rectangle) {
+  if(currentAdClass == MadvertiseAdClassMediumRectangle) {
     self.frame = CGRectMake(x_pos, y_pos, 300, 250);
-  } else if(currentAdClass == mma) {
+  } else if(currentAdClass == MadvertiseAdClassMMA) {
     self.frame = CGRectMake(x_pos, y_pos, 320, 53);
-  } else if(currentAdClass == leaderboard){
+  } else if(currentAdClass == MadvertiseAdClassLeaderboard){
     self.frame = CGRectMake(x_pos, y_pos, 728, 90);
-  } else if(currentAdClass == fullscreen){
+  } else if(currentAdClass == MadvertiseAdClassFullscreen){
     self.frame = CGRectMake(x_pos, y_pos, 768, 768);
-  } else if(currentAdClass == portrait){
+  } else if(currentAdClass == MadvertiseAdClassPortrait){
     self.frame = CGRectMake(x_pos, y_pos, 766, 66);
-  } else if(currentAdClass == landscape){
+  } else if(currentAdClass == MadvertiseAdClassLandscape){
     self.frame = CGRectMake(x_pos, y_pos, 1024, 66);
   }
 }
@@ -169,7 +166,7 @@ NSString * const MadvertiseAdClass_toString[] = {
 // helper method for initialization
 - (MadvertiseView*)initWithDelegate:(id<MadvertiseDelegationProtocol>)delegate withClass:(MadvertiseAdClass)adClassValue secondsToRefresh:(int)secondsToRefresh {
   
-  [super init];
+  self = [super init];
   
   self.clipsToBounds = YES; 
    
@@ -236,8 +233,9 @@ NSString * const MadvertiseAdClass_toString[] = {
   //-----------------------------
   [[NSNotificationCenter defaultCenter] postNotificationName:@"MadvertiseAdLoadFailed" object:[NSNumber numberWithInt:responseCode]];
 
-  [connection release];
-  connection = nil;
+  [conn release];
+  conn = nil;
+  [request release];
   request    = nil;
 }
 
@@ -254,36 +252,37 @@ NSString * const MadvertiseAdClass_toString[] = {
     NSString* jsonString = [[NSString alloc] initWithData:receivedData encoding: NSUTF8StringEncoding];
     [MadvertiseUtilities localDebug:[NSString stringWithFormat:@"%@%@", @"Received string: ", jsonString]];
     
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     [jsonString release];
     
-    NSDictionary *dictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:nil];
+    NSDictionary *dictionary = [jsonData objectFromJSONData];
     
     [MadvertiseUtilities localDebug:@"Creating ad"];
     
     // create ad (and release old Ad)
-    if(currentAd)
+    if(currentAd) {
       [currentAd release];
+    }
     
-    currentAd = [MadvertiseAd initFromDictionary:dictionary];
+    currentAd = [[MadvertiseAd initFromDictionary:dictionary] retain];
     
     // banner formats
-    if(currentAdClass == medium_rectangle) {
+    if(currentAdClass == MadvertiseAdClassMediumRectangle) {
       currentAd.width   = 300;
       currentAd.height  = 250;
-    } else if(currentAdClass == mma) {
+    } else if(currentAdClass == MadvertiseAdClassMMA) {
       currentAd.width   = 320;
       currentAd.height  = 53; 
-    } else if(currentAdClass == leaderboard){
+    } else if(currentAdClass == MadvertiseAdClassLeaderboard){
       currentAd.width   = 728;
       currentAd.height  = 90;
-    } else if(currentAdClass == fullscreen){
+    } else if(currentAdClass == MadvertiseAdClassFullscreen){
       currentAd.width   = 768;
       currentAd.height  = 768;
-    } else if(currentAdClass == portrait){
+    } else if(currentAdClass == MadvertiseAdClassPortrait){
       currentAd.width   = 766;
       currentAd.height  = 66;
-    } else if(currentAdClass == landscape){
+    } else if(currentAdClass == MadvertiseAdClassLandscape){
       currentAd.width   = 1024;
       currentAd.height  = 66;
     }
@@ -294,6 +293,7 @@ NSString * const MadvertiseAdClass_toString[] = {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MadvertiseAdLoadFailed" object:[NSNumber numberWithInt:responseCode]];
   }
   
+  [request release];
   request       = nil;
   [receivedData release];
   receivedData  = nil;
@@ -306,7 +306,8 @@ NSString * const MadvertiseAdClass_toString[] = {
   [lock lock];
   
   ////////////////  POST PARAMS ////////////////
-  post_params = [[NSMutableDictionary alloc] init];
+  
+  NSMutableDictionary *post_params = [NSMutableDictionary dictionary];
   
   if(request){
     [MadvertiseUtilities localDebug:@"loadAd - returning because another request is running"];
@@ -380,7 +381,8 @@ NSString * const MadvertiseAdClass_toString[] = {
   }
   
   [MadvertiseUtilities localDebug:@"Init new request"];
-  request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10.0]; 
+  [request release];
+  request = [[NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10.0] retain]; 
   
   NSMutableDictionary* headers = [[NSMutableDictionary alloc] init];  
   [headers setValue:@"application/x-www-form-urlencoded; charset=utf-8" forKey:@"Content-Type"];  
@@ -422,6 +424,7 @@ NSString * const MadvertiseAdClass_toString[] = {
   [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
   [MadvertiseUtilities localDebug:@"Sending request"];
   
+  [conn release];
   conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
   [MadvertiseUtilities localDebug:@"Request send"];
   
@@ -437,6 +440,7 @@ NSString * const MadvertiseAdClass_toString[] = {
 - (void)openInAppBrowser {
 
   [self stopTimer];
+  [inAppLandingPageController release];
   inAppLandingPageController = [[InAppLandingPageController alloc] init];  
   inAppLandingPageController.onClose =  @selector(inAppBrowserClosed);
   inAppLandingPageController.ad = currentAd;
@@ -457,18 +461,23 @@ NSString * const MadvertiseAdClass_toString[] = {
 - (void) stopTimer {
   if (timer && [timer isValid]) {
     [timer invalidate];
-    timer = nil;
   }
+  [timer release];
+  timer = nil;
 }
 
 - (void)createAdReloadTimer {
   // prepare automatic refresh
   [MadvertiseUtilities localDebug:@"Init Ad reload timer"];
   [self stopTimer];
-  timer = [NSTimer scheduledTimerWithTimeInterval: interval target: self selector: @selector(timerFired:) userInfo: nil repeats: YES];
+  [timer release];
+  timer = [[NSTimer scheduledTimerWithTimeInterval: interval target: self selector: @selector(timerFired:) userInfo: nil repeats: YES] retain];
 }
 
 - (void)inAppBrowserClosed {
+  [[inAppLandingPageController retain] autorelease]; // Prevent crash
+  [inAppLandingPageController release];
+  inAppLandingPageController = nil;
   [self createAdReloadTimer];
 }
 
@@ -768,7 +777,7 @@ NSString * const MadvertiseAdClass_toString[] = {
 }
 
 - (void)viewSwapFinished:(NSString*)animationID finished:(NSNumber*)finished context:(void*)context {
-  [self destroyView:oldView];
+  
 }
 
 - (void) resetAnimation{
