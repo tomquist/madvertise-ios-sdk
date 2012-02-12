@@ -6,9 +6,13 @@ The madvertise iOS SDK lets you monetize your iOS apps via advertising. Basicall
 
 It supports different banner sizes (mma, medium_rectangle, portrait, landscape, fullscreen, leaderboard), ad rotation, in-app landing pages, animated roll-over effects, etc. ...
 
+h2. Fork
+
+This Fork of the madvertise iOS SDK uses the JSONKit library for parsing JSON data instead of the TouchJSON library.
+
 h2. License
 
-The iOS SDK is using TouchJSON, a library for parsing JSON data (https://github.com/TouchCode/TouchJSON), which is published under the MIT License (http://www.opensource.org/licenses/mit-license.php).
+The iOS SDK is using JSONKit, a library for parsing JSON data (https://github.com/johnezang/JSONKit), which is is dual licensed under either the terms of the BSD License, or alternatively under the terms of the Apache License, Version 2.0.
 
 All other code is published under the Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0).
 
@@ -21,6 +25,12 @@ h2. Preparations
 * Clone this repository:
     
     git clone git@github.com:madvertise/madvertise-ios-sdk.git
+
+* Init the submodule JSONKit
+
+    cd madvertise-ios-sdk/source/JSONKit
+    git submodule init
+    git submodule update
 
 * Always include the following 4 libraries from Apple in you projects:
   * Foundation.framework
