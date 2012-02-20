@@ -115,7 +115,9 @@
 bool gone = NO; 
 
 - (void)back {
-  if (self.parentViewController) {
+  if ([self respondsToSelector:@selector(presentingViewController)] && self.presentingViewController) {
+    [self.presentingViewController dismissModalViewControllerAnimated:TRUE];
+  } else if (self.parentViewController) {
     // this can only happen, when we were displayed as a modal view
     [self dismissModalViewControllerAnimated:YES];
   }
