@@ -586,10 +586,11 @@ NSString * const MadvertiseAdClass_toString[] = {
     //--------
     MADLog(@"Showing text ad");
     MadvertiseTextAdView* view = [MadvertiseTextAdView withText:currentAd.text];
-    if(!currentView){
+    //if(!currentView){
       self.currentView = view;
-    }
+    //}
     [view setFrame:self.frame];
+    [self swapViewWithCurlDownAnimation:view];
   }
   //
   [[NSNotificationCenter defaultCenter] postNotificationName:@"MadvertiseAdLoaded" object:[NSNumber numberWithInt:responseCode]];
