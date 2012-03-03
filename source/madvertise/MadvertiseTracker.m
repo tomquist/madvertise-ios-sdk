@@ -69,6 +69,7 @@ static NSString *madServer = @"http://ad.madvertise.de/action/";
 }
 
 + (void) report: (NSString*) action_type {
+    @autoreleasepool {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	
@@ -130,6 +131,7 @@ static NSString *madServer = @"http://ad.madvertise.de/action/";
 #endif 
   
   [headers release];
+    }
 }
 
 @end
